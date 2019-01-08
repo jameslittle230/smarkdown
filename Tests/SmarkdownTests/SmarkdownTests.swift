@@ -53,8 +53,11 @@ final class SmarkdownTests: XCTestCase {
     func testTokenization() {
         let smd = Smarkdown()
         let tokens = smd.parse("# Heading\n    foo\nHeading\n------\n    foo\n----")
-        tokens.forEach {
-            print($0.block!)
+        let types: [LeafBlock.Type] = [ATXHeader.self, CodeBlock.self, SetextHeader.self, CodeBlock.self, ThematicBreak.self]
+
+        for (idx, token) in tokens.enumerated() {
+            let listedType = types[idx]
+            XCTAssertTrue(type(of: token.block!) == listedType)
         }
     }
 
