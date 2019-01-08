@@ -47,7 +47,8 @@ extension Token {
         ThematicBreak.self,
         ATXHeader.self,
         SetextHeader.self,
-        CodeBlock.self
+        CodeBlock.self,
+        FencedCodeBlock.self
     ]
 }
 

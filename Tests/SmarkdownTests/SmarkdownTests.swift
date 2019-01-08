@@ -55,6 +55,19 @@ final class SmarkdownTests: XCTestCase {
 
     func testFencedCodeBlock() {
         XCTAssertEqual(FencedCodeBlock.consume("```\n<\n >\n```")?.contents, "<\n >")
+        XCTAssertEqual(FencedCodeBlock.consume("```\n<\n >\n```")?.infoString, "")
+
+        XCTAssertEqual(FencedCodeBlock.consume("```\naaa\n~~~\n```")?.contents, "aaa\n~~~")
+        XCTAssertEqual(FencedCodeBlock.consume("~~~~\naaa\n~~~\n~~~~~~")?.contents, "aaa\n~~~")
+        XCTAssertEqual(FencedCodeBlock.consume("```\n\n  \n```")?.contents, "\n  ")
+        XCTAssertEqual(FencedCodeBlock.consume(" ```\n aaa\naaa\n```")?.contents, "aaa\naaa")
+        XCTAssertEqual(FencedCodeBlock.consume("```\naaa\n  ```")?.contents, "aaa")
+
+        XCTAssertNil(FencedCodeBlock.consume("    ```\n aaa\naaa\n```")?.contents, "aaa\naaa")
+
+        XCTAssertEqual(FencedCodeBlock.consume("```ruby\ndef foo(x)\n  return 3\nend\n```")?.contents,
+                       "def foo(x)\n  return 3\nend")
+        XCTAssertEqual(FencedCodeBlock.consume("```ruby\ndef foo(x)\n  return 3\nend\n```")?.infoString, "ruby")
     }
 
     func testTokenization() {
