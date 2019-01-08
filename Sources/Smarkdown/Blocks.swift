@@ -9,18 +9,19 @@ import Foundation
 
 protocol LeafBlock {
     var contents: String? { get }
-    static func consume(_ str: String) -> LeafBlock?
+    static func consume(_ str: String) -> Self?
     func render(_ str: String) -> String
 }
 
 struct ThematicBreak: LeafBlock {
+
     let contents: String? = nil
 
     func render(_ str: String) -> String {
         return "<hr>"
     }
 
-    static func consume(_ str: String) -> LeafBlock? {
+    static func consume(_ str: String) -> ThematicBreak? {
         guard !str.starts(with: "    ") else {
             return nil
         }
@@ -56,7 +57,7 @@ struct ATXHeader: LeafBlock {
         return ""
     }
 
-    static func consume(_ str: String) -> LeafBlock? {
+    static func consume(_ str: String) -> ATXHeader? {
         guard !str.starts(with: "    ") else {
             return nil
         }
@@ -106,7 +107,7 @@ struct SetextHeader: LeafBlock {
         return ""
     }
 
-    static func consume(_ str: String) -> LeafBlock? {
+    static func consume(_ str: String) -> SetextHeader? {
         let lines = str.components(separatedBy: "\n")
 
         guard var lastLine = lines.last else {
@@ -136,7 +137,7 @@ struct SetextHeader: LeafBlock {
 struct CodeBlock: LeafBlock {
     var contents: String?
 
-    static func consume(_ str: String) -> LeafBlock? {
+    static func consume(_ str: String) -> CodeBlock? {
         let lines = str.components(separatedBy: "\n")
 
         for line in lines {
