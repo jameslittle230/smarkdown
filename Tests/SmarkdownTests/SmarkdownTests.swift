@@ -5,7 +5,8 @@ final class SmarkdownTests: XCTestCase {
     func testATXHeader() {
         XCTAssertEqual(ATXHeader.consume("# ATX Header")?.contents, "ATX Header")
         XCTAssertEqual(ATXHeader.consume("# Trailing Pound Sign #")?.contents, "Trailing Pound Sign")
-        XCTAssertEqual(ATXHeader.consume("###### Six leading, lots trailing #################")?.contents, "Six leading, lots trailing")
+        XCTAssertEqual(ATXHeader.consume("###### Six leading, lots trailing #################")?.contents,
+                       "Six leading, lots trailing")
         XCTAssertEqual(ATXHeader.consume("## ")?.contents, "")
         XCTAssertEqual(ATXHeader.consume("   # Three leading spaces")?.contents, "Three leading spaces")
         XCTAssertEqual(ATXHeader.consume("#           Leading and Trailing        #")?.contents, "Leading and Trailing")
@@ -46,14 +47,21 @@ final class SmarkdownTests: XCTestCase {
     }
 
     func testCodeBlock() {
-        XCTAssertEqual(CodeBlock.consume("    a simple\n      indented code block")?.contents, "a simple\n  indented code block")
-        XCTAssertEqual(CodeBlock.consume("    chunk 1\n\n    chunk 2\n  \n \n \n    chunk 3")?.contents, "chunk 1\n\nchunk 2\n\n\n\nchunk 3")
+        XCTAssertEqual(CodeBlock.consume("    a simple\n      indented code block")?.contents,
+                       "a simple\n  indented code block")
+        XCTAssertEqual(CodeBlock.consume("    chunk 1\n\n    chunk 2\n  \n \n \n    chunk 3")?.contents,
+                       "chunk 1\n\nchunk 2\n\n\n\nchunk 3")
+    }
+
+    func testFencedCodeBlock() {
+        XCTAssertEqual(FencedCodeBlock.consume("```\n<\n >\n```")?.contents, "<\n >")
     }
 
     func testTokenization() {
         let smd = Smarkdown()
         let tokens = smd.parse("# Heading\n    foo\nHeading\n------\n    foo\n----")
-        let types: [LeafBlock.Type] = [ATXHeader.self, CodeBlock.self, SetextHeader.self, CodeBlock.self, ThematicBreak.self]
+        let types: [LeafBlock.Type] = [ATXHeader.self, CodeBlock.self, SetextHeader.self,
+                                       CodeBlock.self, ThematicBreak.self]
 
         for (idx, token) in tokens.enumerated() {
             let listedType = types[idx]

@@ -13,7 +13,7 @@ struct Smarkdown {
 
         var queue = Queue<String>()
         var output: [Token] = []
-        
+
         markdown
             .split(separator: "\n", omittingEmptySubsequences: false)
             .forEach {
