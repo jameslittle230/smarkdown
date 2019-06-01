@@ -21,8 +21,7 @@ struct CodeBlock: LeafBlock {
 
         let contents = lines.map { line in
             if line.starts(with: "    ") {
-                //                return line[4...]
-                return String(line[line.index(line.startIndex, offsetBy: 4) ..< line.endIndex])
+                return line[4...].string
             } else {
                 return ""
             }
