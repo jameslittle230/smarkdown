@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Stryng",
+        "repositoryURL": "https://github.com/BalestraPatrick/Stryng.git",
+        "state": {
+          "branch": null,
+          "revision": "612ad62350f65504038025ea125624e9f449e6ac",
+          "version": "0.4.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
