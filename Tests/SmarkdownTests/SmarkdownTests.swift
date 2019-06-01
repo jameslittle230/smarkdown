@@ -70,6 +70,10 @@ final class SmarkdownTests: XCTestCase {
         XCTAssertEqual(FencedCodeBlock.consume("```ruby\ndef foo(x)\n  return 3\nend\n```")?.infoString, "ruby")
     }
 
+    func testHTMLBlock() {
+        XCTAssertEqual(HTMLBlock.consume("<table>\n  <tr>\n    <td>\n           hi\n    </td>\n  </tr>\n</table>\n")?.contents, "<table>\n  <tr>\n    <td>\n           hi\n    </td>\n  </tr>\n</table>\n")
+    }
+
     func testTokenization() {
         let smd = Smarkdown()
         let tokens = smd.parse("# Heading\n    foo\nHeading\n------\n    foo\n----")
